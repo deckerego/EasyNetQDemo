@@ -1,0 +1,5 @@
+Cython==0.16
+WebOb==1.2
+bottle==0.10.11
+wsgiref==0.1.2
+pika==0.9.5
