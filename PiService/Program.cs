@@ -8,8 +8,9 @@ using Castle.Windsor;
 using Magnum;
 using MassTransit;
 using MassTransit.WindsorIntegration;
+using Topshelf;
 
-namespace PiService
+namespace Pi.Service
 {
 	class Program
 	{
@@ -27,9 +28,34 @@ namespace PiService
 				sbc.UseJsonSerializer();
 				sbc.Subscribe(subs => subs.LoadFrom(container));
 			});
-			container.Register(Component.For<IServiceBus>().Instance(massTransitBus).LifeStyle.Singleton);
 
-			massTransitBus.WriteIntrospectionToConsole();
+			container.Register(
+				Component.For<IServiceBus>().Instance(massTransitBus).LifeStyle.Singleton,
+				Component.For<PiService>().LifeStyle.Singleton
+			);
+
+			HostFactory.Run(c =>
+			{
+				c.SetServiceName("PiService");
+				c.SetDisplayName("Pi Calculation Service");
+				c.SetDescription("A MassTransit service for poorly calculating Pi");
+				c.RunAsLocalService();
+
+				massTransitBus.WriteIntrospectionToConsole();
+
+				c.Service<PiService>(s =>
+				{
+					s.ConstructUsing(builder => container.Resolve<PiService>());
+					s.WhenStarted(o => o.Start());
+					s.WhenStopped(o =>
+					{
+						o.Stop();
+						container.Dispose();
+					});
+					s.WhenPaused(o => o.Paused());
+					s.WhenContinued(o => o.Continue());
+				});
+			});
 		}
 	}
 }
