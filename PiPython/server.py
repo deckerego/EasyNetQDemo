@@ -11,6 +11,7 @@ def pi(terms):
 	response = send(request)
 	return "Pi is sorta kinda (in a way): %s" % response['message']['pi']
 
+# TODO Externalize responseAddress
 def createMessage(terms):
 	fields = { 
 		'responseAddress': "rabbitmq://10.211.55.2/PiPython",
@@ -21,6 +22,7 @@ def createMessage(terms):
 	}
 	return str(fields)
 
+# TODO Break out connection logic
 def send(message):
 	connect_params = pika.ConnectionParameters('localhost')
 	connection = pika.BlockingConnection(connect_params)
@@ -35,6 +37,8 @@ def send(message):
 
 	channel.basic_publish(exchange='Pi', routing_key='', properties=pub_props, body=message)
 
+	# TODO This needs fixed up - polling is ugly
+	# FIXME I don't use correlation IDs, so who knows what messages I get
 	while connection.is_open:
 		method_frame, header_frame, response_body = channel.basic_get(queue=callback_queue)
 		if method_frame.NAME == 'Basic.GetEmpty':
