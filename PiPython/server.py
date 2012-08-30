@@ -46,6 +46,8 @@ def send(message):
 			time.sleep(1)
 		else:
 			channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+			channel.queue_unbind(queue="pi_reply", exchange="PiPython")
+			channel.queue_delete(queue="pi_reply")
 			connection.close()
 
 	return ast.literal_eval(response_body)
