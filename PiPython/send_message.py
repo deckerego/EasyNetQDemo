@@ -9,6 +9,7 @@ class RequestReply():
 		self.channel = self.connection.channel()
 		self.channel.exchange_declare(exchange=exchange, durable=True, type='fanout')
 		self.exchange = exchange
+		self.callback_queue = None
 
 	def __create_callback(self):
 		result = self.channel.queue_declare(durable=False, exclusive=False, auto_delete=True)
