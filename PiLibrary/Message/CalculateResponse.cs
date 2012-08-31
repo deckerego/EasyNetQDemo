@@ -12,9 +12,9 @@ namespace Pi.Library.Message
 		public Guid CorrelationId { get; set; }
 		public double Pi { get; set; }
 
-		public CalculateResponse()
+		public CalculateResponse(CalculateRequest request)
 		{
-			CorrelationId = Guid.NewGuid();
+			CorrelationId = request.CorrelationId;
 		}
 	}
 }
