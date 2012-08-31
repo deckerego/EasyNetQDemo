@@ -17,7 +17,6 @@ def createMessage(terms):
 		'responseAddress': "rabbitmq://10.211.55.2/PiPython",
 		'requestId': str(uuid.uuid4()),
 		'message': {
-			'correlationId' : str(uuid.uuid4()),
 			'terms': terms
 		},
 		'messageType': ["urn:message:Pi.Library.Message:CalculateRequest"]
