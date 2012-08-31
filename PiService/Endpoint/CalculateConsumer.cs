@@ -13,7 +13,7 @@ namespace Pi.Service.Endpoint
 	{
 		public void Consume(CalculateRequest inbound)
 		{
-			CalculateResponse outbound = new CalculateResponse();
+			CalculateResponse outbound = new CalculateResponse(inbound);
 			outbound.Pi = CalculateGregoryApproximation(inbound.Terms);
 
 			this.Context().Respond(outbound);
