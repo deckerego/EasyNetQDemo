@@ -14,21 +14,21 @@ class RequestReply():
 		self.callback_queue = result.method.queue
 		self.channel.basic_consume(self.__on_response, no_ack=True, queue=self.callback_queue)
 
-	def request(self, message):
+	def request(self, message, msg_type):
 		self.response = None
 		self.message = message
-		pub_props = pika.BasicProperties(reply_to=self.callback_queue, correlation_id=self.correlation_id, type='Pi_Library_Message_CalculateRequest:Pi_Library')
-		self.channel.basic_publish(exchange='', routing_key='Pi_Library_Message_CalculateRequest:Pi_Library', properties=pub_props, body=str(self.message))
+		pub_props = pika.BasicProperties(reply_to=self.callback_queue, correlation_id=self.correlation_id, type=msg_type)
+		self.channel.basic_publish(exchange='', routing_key=msg_type, properties=pub_props, body=str(self.message))
 		print "sent message %s\n" % self.message
 
 	def __on_response(self, ch, method, props, body):
 		print "received response %s\n" % (body)
 		self.response = ast.literal_eval(body);
 
-	def get_reply(self, message):
+	def get_reply(self, message, msg_type):
 		self.__create_callback()
 		self.correlation_id = str(uuid.uuid4())
-		self.request(message)
+		self.request(message, msg_type)
 
 		while self.response is None:
 			print "waiting for response...\n"

@@ -8,7 +8,7 @@ app = Bottle()
 def pi(terms):
 	request = createMessage(terms)
 	request_reply = RequestReply()
-	response = request_reply.get_reply(request)
+	response = request_reply.get_reply(request, 'Pi_Library_Message_CalculateRequest:Pi_Library')
 	return "Pi is sorta kinda (in a way): %s" % response['Pi']
 
 # TODO Externalize responseAddress
