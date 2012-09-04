@@ -7,19 +7,14 @@ app = Bottle()
 @app.route('/pi/<terms:int>')
 def pi(terms):
 	request = createMessage(terms)
-	request_reply = RequestReply('PiPython')
-	response = request_reply.get_reply('Pi', request)
-	return "Pi is sorta kinda (in a way): %s" % response['message']['pi']
+	request_reply = RequestReply()
+	response = request_reply.get_reply(request)
+	return "Pi is sorta kinda (in a way): %s" % response['Pi']
 
 # TODO Externalize responseAddress
 def createMessage(terms):
 	fields = { 
-		'responseAddress': "rabbitmq://10.211.55.2/PiPython",
-		'requestId': str(uuid.uuid4()),
-		'message': {
-			'terms': terms
-		},
-		'messageType': ["urn:message:Pi.Library.Message:CalculateRequest"]
+		'terms': terms
 	}
 	return fields
 
