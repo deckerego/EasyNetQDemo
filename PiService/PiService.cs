@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using MassTransit;
+using EasyNetQ;
 
 namespace Pi.Service
 {
 	public class PiService
 	{
-		private readonly IServiceBus Bus;
+		private readonly IBus Bus;
 
-		public PiService(IServiceBus bus)
+		public PiService(IBus bus)
 		{
 			Bus = bus;
 		}

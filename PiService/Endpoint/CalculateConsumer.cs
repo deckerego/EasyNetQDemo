@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using MassTransit;
+using EasyNetQ;
 
 using Pi.Library.Message;
 
 namespace Pi.Service.Endpoint
 {
-	public class CalculateConsumer : Consumes<CalculateRequest>.All
+	public class CalculateConsumer
 	{
-		public void Consume(CalculateRequest inbound)
+		public static CalculateResponse Consume(CalculateRequest request)
 		{
-			CalculateResponse outbound = new CalculateResponse(inbound);
-			outbound.Pi = CalculateGregoryApproximation(inbound.Terms);
-
-			this.Context().Respond(outbound);
+			CalculateResponse response = new CalculateResponse();
+			response.Pi = CalculateGregoryApproximation(request.Terms);
+			return response;
 		}
 
 		public static double CalculateGregoryApproximation(int terms)

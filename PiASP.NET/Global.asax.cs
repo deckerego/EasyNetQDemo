@@ -5,9 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using MassTransit;
+using EasyNetQ;
 
 namespace PiASP
 {
@@ -15,24 +13,8 @@ namespace PiASP
 	{
 		protected void Application_Start(object sender, EventArgs e)
 		{
-			IWindsorContainer container = new WindsorContainer();
-			var bus = ServiceBusFactory.New(sbc =>
-			{
-				sbc.UseRabbitMq();
-				sbc.UseRabbitMqRouting();
-				sbc.ReceiveFrom("rabbitmq://10.211.55.2/TestWeb");
-				sbc.SetConcurrentConsumerLimit(1);
-
-				sbc.UseControlBus();
-
-				sbc.Subscribe(subs =>
-				{
-					subs.LoadFrom(container);
-				});
-			});
-
-			container.Register(Component.For<IServiceBus>().Instance(bus));
-			Application["Container"] = container;
+			IBus bus = RabbitHutch.CreateBus("host=10.211.55.2;port=5672;virtualHost=/;username=guest;password=guest");
+			Application["MessageBus"] = bus;
 		}
 
 		protected void Session_Start(object sender, EventArgs e)
@@ -62,8 +44,8 @@ namespace PiASP
 
 		protected void Application_End(object sender, EventArgs e)
 		{
-			IWindsorContainer container = (IWindsorContainer)Application["Container"];
-			container.Dispose();
+			IBus bus = (IBus)Application["MessageBus"];
+			bus.Dispose();
 		}
 	}
 }

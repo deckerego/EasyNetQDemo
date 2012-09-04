@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Threading;
 
-using MassTransit;
-using Castle.Windsor;
+using EasyNetQ;
 
 using Pi.Library.Message;
 
@@ -14,23 +14,28 @@ namespace PiASP
 {
 	public partial class Default : System.Web.UI.Page
 	{
-		private IServiceBus Bus;
+		private IBus Bus;
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			IWindsorContainer container = (IWindsorContainer)Application["container"];
-			Bus = container.Resolve<IServiceBus>();
+			Bus = (IBus)Application["MessageBus"];
 		}
 
 		protected void SendMessage(object sender, EventArgs e)
 		{
 			CalculateRequest request = new CalculateRequest() { Terms = Convert.ToInt32(MessageText.Text) };
+			AutoResetEvent responseEvent = new AutoResetEvent(false);
 
-			Bus.PublishRequest(request, response =>
+			using (var publishChannel = Bus.OpenPublishChannel())
 			{
-				response.Handle<CalculateResponse>(message => MessageResponse.Text = string.Format("{0}", message.Pi));
-				response.SetTimeout(TimeSpan.FromSeconds(30));
-			});
+				publishChannel.Request<CalculateRequest, CalculateResponse>(request, response => 
+				{
+					MessageResponse.Text = response.Pi.ToString();
+					responseEvent.Set();
+				});
+			}
+
+			responseEvent.WaitOne();
 		}
 	}
 }
