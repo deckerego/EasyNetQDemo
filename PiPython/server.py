@@ -1,5 +1,5 @@
 from bottle import Bottle, route, run, debug
-from send_message import RequestReply
+from send_message import EasyNetQBus
 import uuid
 
 app = Bottle()
@@ -7,11 +7,10 @@ app = Bottle()
 @app.route('/pi/<terms:int>')
 def pi(terms):
 	request = createMessage(terms)
-	request_reply = RequestReply()
-	response = request_reply.get_reply(request, 'Pi_Library_Message_CalculateRequest:Pi_Library')
+	bus = EasyNetQBus('127.0.0.1')
+	response = bus.get_reply(request, 'Pi_Library_Message_CalculateRequest:Pi_Library')
 	return "Pi is sorta kinda (in a way): %s" % response['Pi']
 
-# TODO Externalize responseAddress
 def createMessage(terms):
 	fields = { 
 		'terms': terms

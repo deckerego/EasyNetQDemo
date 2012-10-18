@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using EasyNetQ;
+
+using Pi.Library.Message;
+using Pi.Service.Endpoint;
+using System.Configuration;
 
 namespace Pi.Service
 {
 	public class PiService
 	{
-		private readonly IBus Bus;
+		private IBus Bus;
 
-		public PiService(IBus bus)
+		protected void RegisterEndpoints()
 		{
-			Bus = bus;
+			Bus.Respond<CalculateRequest, CalculateResponse>(CalculateConsumer.Consume);
 		}
 
 		public void Start()
 		{
+			ConnectionStringSettings config = ConfigurationManager.ConnectionStrings["AMQPBroker"];
+			Bus = RabbitHutch.CreateBus(config.ConnectionString);
+			RegisterEndpoints();
 		}
 
 		public void Stop()

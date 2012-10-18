@@ -13,8 +13,6 @@ namespace PiASP
 	{
 		protected void Application_Start(object sender, EventArgs e)
 		{
-			IBus bus = RabbitHutch.CreateBus("host=10.211.55.2;port=5672;virtualHost=/;username=guest;password=guest");
-			Application["MessageBus"] = bus;
 		}
 
 		protected void Session_Start(object sender, EventArgs e)

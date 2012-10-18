@@ -6,6 +6,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiTest", "PiTest\PiTest.csproj", "{BA856739-0C89-4D1F-BE63-6CC93F2C8F83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9774D1BA-EA94-4E2D-BE14-3A2741B21D06}"
+	ProjectSection(SolutionItems) = preProject
+		EasyNetQDemo.vsmdi = EasyNetQDemo.vsmdi
+		Local.testsettings = Local.testsettings
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{243E32B2-7DE6-42F9-A362-CF9C75C1B18B}"
 EndProject
@@ -19,6 +23,9 @@ Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = EasyNetQDemo.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
