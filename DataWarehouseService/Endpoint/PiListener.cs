@@ -5,13 +5,13 @@ using System.Text;
 
 using Pi.Library.Message;
 
-namespace Pi.Service.Endpoint
+namespace DataWarehouse.Service.Endpoint
 {
-	class ConsoleListener
+	public class ConsoleListener
 	{
 		public static void Consume(CalculateRequest inbound)
 		{
-			Console.WriteLine(string.Format("Just saw request for pi to {1} decimals", inbound.Terms));
+			Console.WriteLine(string.Format("Just saw request for pi to {0} decimals", inbound.Terms));
 		}
 	}
 }

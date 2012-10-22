@@ -9,18 +9,23 @@ using EasyNetQ;
 using EasyNetQ.Topology;
 
 using Pi.Library.Message;
-using Pi.Service.Endpoint;
+using DataWarehouse.Service.Endpoint;
 using System.Threading.Tasks;
 
-namespace Pi.Service
+namespace DataWarehouse.Service
 {
-	public class PiService
+	public class DataWarehouseService
 	{
 		private IBus Bus;
 
 		protected void RegisterEndpoints()
 		{
-			Bus.Respond<CalculateRequest, CalculateResponse>(CalculateConsumer.Consume);
+			string routingKey = EasyNetQ.TypeNameSerializer.Serialize(typeof(Pi.Library.Message.CalculateRequest));
+			var wiretapCalculateRequestExchange = Exchange.DeclareDirect(RabbitBus.RpcExchange);
+			var wiretapCalculateRequestQueue = Queue.DeclareDurable(routingKey+":DataWarehouseService:Wiretap");
+			wiretapCalculateRequestQueue.BindTo(wiretapCalculateRequestExchange, routingKey);
+			Bus.Advanced.Subscribe<CalculateRequest>(wiretapCalculateRequestQueue, (msg, info) =>
+				Task.Factory.StartNew(() => ConsoleListener.Consume(msg.Body)));
 		}
 
 		public void Start()

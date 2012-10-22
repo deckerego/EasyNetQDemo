@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BA856739-0C89-4D1F-BE63-6CC93F2C8F83}</ProjectGuid>
+    <ProjectGuid>{1C812AB9-F49B-4D15-8BE3-DEE6753461F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PiTest</RootNamespace>
-    <AssemblyName>PiTest</AssemblyName>
+    <RootNamespace>DataWarehouseTest</RootNamespace>
+    <AssemblyName>DataWarehouseTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,21 +45,21 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Endpoint\CalculateConsumerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataWarehouseLibrary\DataWarehouseLibrary.csproj">
+      <Project>{F8B4C42A-53D6-46DA-A7F9-57A92541BBE2}</Project>
+      <Name>DataWarehouseLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataWarehouseService\DataWarehouseService.csproj">
+      <Project>{8B5E1836-1761-44F7-BC36-7A218D4687AE}</Project>
+      <Name>DataWarehouseService %28DataWarehouseService\DataWarehouseService%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PiLibrary\PiLibrary.csproj">
       <Project>{95E9998F-2456-47A6-BFCC-410E0CEEB44D}</Project>
       <Name>PiLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PiService\PiService.csproj">
-      <Project>{F87DA074-1DBA-49D1-9409-1630263E215D}</Project>
-      <Name>PiService %28PiService\PiService%29</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
