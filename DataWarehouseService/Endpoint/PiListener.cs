@@ -7,7 +7,7 @@ using Pi.Library.Message;
 
 namespace DataWarehouse.Service.Endpoint
 {
-	public class ConsoleListener
+	public class PiListener
 	{
 		public static void Consume(CalculateRequest inbound)
 		{

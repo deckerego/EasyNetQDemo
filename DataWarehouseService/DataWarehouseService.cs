@@ -20,12 +20,7 @@ namespace DataWarehouse.Service
 
 		protected void RegisterEndpoints()
 		{
-			string routingKey = EasyNetQ.TypeNameSerializer.Serialize(typeof(Pi.Library.Message.CalculateRequest));
-			var wiretapCalculateRequestExchange = Exchange.DeclareDirect(RabbitBus.RpcExchange);
-			var wiretapCalculateRequestQueue = Queue.DeclareDurable(routingKey+":DataWarehouseService:Wiretap");
-			wiretapCalculateRequestQueue.BindTo(wiretapCalculateRequestExchange, routingKey);
-			Bus.Advanced.Subscribe<CalculateRequest>(wiretapCalculateRequestQueue, (msg, info) =>
-				Task.Factory.StartNew(() => ConsoleListener.Consume(msg.Body)));
+			Wiretap<CalculateRequest>(PiListener.Consume);
 		}
 
 		public void Start()
@@ -46,6 +41,16 @@ namespace DataWarehouse.Service
 
 		public void Continue()
 		{
+		}
+
+		public void Wiretap<T>(Action<T> endpoint)
+		{
+			string routingKey = EasyNetQ.TypeNameSerializer.Serialize(typeof(T));
+			var wiretapCalculateRequestExchange = Exchange.DeclareDirect(RabbitBus.RpcExchange);
+			var wiretapCalculateRequestQueue = Queue.DeclareDurable(routingKey + ":DataWarehouseService:Wiretap");
+			wiretapCalculateRequestQueue.BindTo(wiretapCalculateRequestExchange, routingKey);
+			Bus.Advanced.Subscribe<T>(wiretapCalculateRequestQueue, (msg, info) =>
+				Task.Factory.StartNew(() => endpoint(msg.Body)));
 		}
 	}
 }
