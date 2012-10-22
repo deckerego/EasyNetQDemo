@@ -27,6 +27,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarehouseService", "Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWarehouseTest", "DataWarehouseTest\DataWarehouseTest.csproj", "{1C812AB9-F49B-4D15-8BE3-DEE6753461F9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python REST API", "Python REST API", "{F910EEAE-CDAB-4A19-A709-885C672947EC}"
+	ProjectSection(SolutionItems) = preProject
+		PiPython\pip_requirements.txt = PiPython\pip_requirements.txt
+		PiPython\send_message.py = PiPython\send_message.py
+		PiPython\server.py = PiPython\server.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
