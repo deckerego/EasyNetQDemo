@@ -3,8 +3,8 @@ EasyNetQDemo
 
 A (hopefully) working demonstration that can show how EasyNetQ services can allow ASP.NET and Python applications to drink from the same firehose.
  
-Running the .NET Bits
-----------------------
+Running the Basic .NET Service
+------------------------------
 
 The .NET portion was written in VisualStudio 2010 and should open cleanly as a VisualStudio solution with four projects:
 
@@ -16,6 +16,19 @@ The .NET portion was written in VisualStudio 2010 and should open cleanly as a V
 The solution should build in both VisualStudio as well as Mono, however unit tests will only execute within VisualStudio.
 
 To run the application, launch the PiService executable either as a stand-alone application or using the interactive debugger within VisualStudio. PiASP.NET can be deployed to IIS or run within VisualStudio's application server - just set the properties on the project likewise.
+
+Running the Sample Wiretap
+--------------------------
+
+A demonstration of the wiretap pattern is also included, called "DataWarehouseService" to somewhat emulate a realtime ETL process. We extract from the stream of pi calculation requests, we transform it into a string and then we load it into the console... ;)
+
+We have a similar layout for this service:
+
+* *DataWarehouseLibrary* - POCOs that provide our data model as well as request/response message pairs. It's currently empty; all messages are referenced from PiLibrary.
+* *DataWarehouseService* - The service that will attach to RabbitMQ and listen for pi calculation requests.
+* *DataWarehouseTest* - Also empty. No real business logic to test!
+
+To run the application, launch the DataWarehouseService executable either as a stand-alone application or using the interactive debugger within VisualStudio.
 
 Running the Python Bits
 -----------------------
