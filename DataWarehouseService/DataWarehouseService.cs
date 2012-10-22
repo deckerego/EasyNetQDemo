@@ -21,6 +21,7 @@ namespace DataWarehouse.Service
 		protected void RegisterEndpoints()
 		{
 			Wiretap<CalculateRequest>(PiListener.Consume);
+			Bus.Subscribe<BroadcastMessageRequest>(GetSubscriptionId(), BroadcastMessageListener.Consume);
 		}
 
 		public void Start()
@@ -41,6 +42,11 @@ namespace DataWarehouse.Service
 
 		public void Continue()
 		{
+		}
+
+		public string GetSubscriptionId()
+		{
+			return string.Format("{0}:{1}", this.GetType().FullName, System.Environment.MachineName);
 		}
 
 		public void Wiretap<T>(Action<T> endpoint)

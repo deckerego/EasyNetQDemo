@@ -47,5 +47,13 @@ namespace PiASP.EasyNetQ
 			responseEvent.WaitOne();
 			return response;
 		}
+
+		public void Publish<T>(T request)
+		{
+			using (var publishChannel = MessageBus.OpenPublishChannel())
+			{
+				publishChannel.Publish(request);
+			}  
+		}
 	}
 }

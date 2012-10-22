@@ -20,7 +20,11 @@ namespace Pi.Service
 
 		protected void RegisterEndpoints()
 		{
+			BroadcastMessageConsumer broadcastEndpoint = new BroadcastMessageConsumer();
+
 			Bus.Respond<CalculateRequest, CalculateResponse>(CalculateConsumer.Consume);
+			Bus.Respond<GetMessagesRequest, GetMessagesResponse>(broadcastEndpoint.Consume);
+			Bus.Subscribe<BroadcastMessageRequest>(GetSubscriptionId(), broadcastEndpoint.Consume);
 		}
 
 		public void Start()
@@ -41,6 +45,11 @@ namespace Pi.Service
 
 		public void Continue()
 		{
+		}
+
+		public string GetSubscriptionId()
+		{
+			return string.Format("{0}:{1}", this.GetType().FullName, System.Environment.MachineName);
 		}
 	}
 }

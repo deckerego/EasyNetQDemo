@@ -40,13 +40,13 @@ namespace PiASP {
         protected global::System.Web.UI.WebControls.TextBox MessageText;
         
         /// <summary>
-        /// MessageResponse control.
+        /// MessageList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MessageResponse;
+        protected global::System.Web.UI.WebControls.Repeater MessageList;
         
         /// <summary>
         /// MessageSend control.

@@ -13,8 +13,13 @@
     	Calculate Pi Using <i>X</i> Iterations:<br />
 		<asp:TextBox ID="MessageText" runat="server" Width="192px"></asp:TextBox>
 		<br />
-		Pi is not: <asp:Label ID="MessageResponse" runat="server" />
-		<br />
+
+		<asp:Repeater runat="server" ID="MessageList">
+			<HeaderTemplate><ol></HeaderTemplate>
+			<ItemTemplate><li><%#Container.DataItem%></li></ItemTemplate>
+			<FooterTemplate></ol></FooterTemplate>
+		</asp:Repeater>
+
 		<asp:Button ID="MessageSend" runat="server" onclick="SendMessage" Text="Send" />
     </div>
     </form>

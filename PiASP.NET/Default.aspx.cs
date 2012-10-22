@@ -15,9 +15,22 @@ namespace PiASP
 	{
 		protected void SendMessage(object sender, EventArgs e)
 		{
+			//Make the RPC request
 			CalculateRequest request = new CalculateRequest() { Terms = Convert.ToInt32(MessageText.Text) };
 			CalculateResponse response = EasyNetQBus.Current().SynchronousResponse<CalculateRequest, CalculateResponse>(request);
-			MessageResponse.Text = response.Pi.ToString();
+			string messageText = string.Format("Pi is not: {0}", response.Pi.ToString());
+
+			//Publish a broadcast message
+			BroadcastMessageRequest broadcast = new BroadcastMessageRequest() { MessageText = messageText };
+			EasyNetQBus.Current().Publish<BroadcastMessageRequest>(broadcast);
+
+			//Get the list of broadcast messages (RPC again)
+			GetMessagesRequest messagesRequest = new GetMessagesRequest();
+			GetMessagesResponse messagesResponse = EasyNetQBus.Current().SynchronousResponse<GetMessagesRequest, GetMessagesResponse>(messagesRequest);
+
+			//Print out the last result. Bear in mind we're async - this may not be your last request!
+			MessageList.DataSource = messagesResponse.Messages;
+			MessageList.DataBind();
 		}
 	}
 }

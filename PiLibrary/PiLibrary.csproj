@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Message\BroadcastMessageRequest.cs" />
     <Compile Include="Message\CalculateRequest.cs" />
     <Compile Include="Message\CalculateResponse.cs" />
+    <Compile Include="Message\GetMessagesRequest.cs" />
+    <Compile Include="Message\GetMessagesResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

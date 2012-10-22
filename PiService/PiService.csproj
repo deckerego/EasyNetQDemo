@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Endpoint\BroadcastMessageConsumer.cs" />
     <Compile Include="Endpoint\CalculateConsumer.cs" />
     <Compile Include="PiService.cs" />
     <Compile Include="Program.cs" />

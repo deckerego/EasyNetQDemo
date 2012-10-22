@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataWarehouseService.cs" />
+    <Compile Include="Endpoint\BroadcastMessageListener.cs" />
     <Compile Include="Endpoint\PiListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
