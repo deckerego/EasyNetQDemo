@@ -30,7 +30,7 @@ class EasyNetQBus():
 
 	def request(self, message, msg_type):
 		self.response = None
-		self.message = message
+		self.message = json.dumps(message)
 		self.correlation_id = str(uuid.uuid4())
 		pub_props = pika.BasicProperties(reply_to=self.callback_queue, correlation_id=self.correlation_id, type=msg_type)
 		self.channel.basic_publish(exchange='', routing_key=msg_type, properties=pub_props, body=str(self.message))

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using EasyNetQ;
-
 using Pi.Library.Message;
 
 namespace Pi.Service.Endpoint
