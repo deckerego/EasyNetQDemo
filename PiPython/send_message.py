@@ -28,12 +28,12 @@ class EasyNetQBus():
 	def __destroy_callback(self):
 		self.channel.queue_delete(queue=self.callback_queue)
 
-	def request(self, message, msg_type):
+	def request(self, message, msg_type, exchange_name='easy_net_q_rpc'):
 		self.response = None
 		self.message = json.dumps(message)
 		self.correlation_id = str(uuid.uuid4())
 		pub_props = pika.BasicProperties(reply_to=self.callback_queue, correlation_id=self.correlation_id, type=msg_type)
-		self.channel.basic_publish(exchange='', routing_key=msg_type, properties=pub_props, body=str(self.message))
+		self.channel.basic_publish(exchange=exchange_name, routing_key=msg_type, properties=pub_props, body=str(self.message))
 		self.connection.process_data_events()
 		print "sent message %s\n" % self.message
 
