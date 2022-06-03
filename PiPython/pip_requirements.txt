@@ -1,5 +1,5 @@
 Cython==0.16
 WebOb==1.2
-bottle==0.12.19
+bottle==0.12.20
 wsgiref==0.1.2
 pika==0.9.5
